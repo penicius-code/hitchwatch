@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- HitchWatch (Cyberslop): kernel trace for frame-hitch attribution. Started and stopped by hitchwatch.py via
+     wpr.exe -instancename HitchWatch. CPU samples (1 kHz) with stacks, context switches + ready events (who woke a
+     waiting thread), DPC / ISR (drivers), file I/O with stacks on create / write / flush (who writes which file),
+     hard page faults. No user-mode providers: frame times come from PresentMon on the same QPC clock. -->
+<WindowsPerformanceRecorder Version="1.0" Author="Cyberslop HitchWatch">
+  <Profiles>
+    <SystemCollector Id="HW_SystemCollector" Name="HitchWatch Kernel Logger">
+      <BufferSize Value="1024"/>
+      <Buffers Value="192"/>
+    </SystemCollector>
+
+    <SystemProvider Id="HW_SystemProvider">
+      <Keywords>
+        <Keyword Value="ProcessThread"/>
+        <Keyword Value="Loader"/>
+        <Keyword Value="SampledProfile"/>
+        <Keyword Value="CSwitch"/>
+        <Keyword Value="ReadyThread"/>
+        <Keyword Value="DPC"/>
+        <Keyword Value="Interrupt"/>
+        <Keyword Value="FileIO"/>
+        <Keyword Value="FileIOInit"/>
+        <Keyword Value="HardFaults"/>
+      </Keywords>
+      <Stacks>
+        <Stack Value="SampledProfile"/>
+        <Stack Value="FileCreate"/>
+        <Stack Value="FileWrite"/>
+        <Stack Value="FileFlush"/>
+      </Stacks>
+    </SystemProvider>
+
+    <Profile Id="HitchWatch.Verbose.File" Name="HitchWatch" Description="Cyberslop HitchWatch frame-hitch trace"
+             LoggingMode="File" DetailLevel="Verbose">
+      <Collectors>
+        <SystemCollectorId Value="HW_SystemCollector">
+          <SystemProviderId Value="HW_SystemProvider"/>
+        </SystemCollectorId>
+      </Collectors>
+    </Profile>
+  </Profiles>
+</WindowsPerformanceRecorder>
